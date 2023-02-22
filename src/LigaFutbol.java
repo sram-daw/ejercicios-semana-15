@@ -58,12 +58,22 @@ public class LigaFutbol implements Liga {
     //funciones
     @Override
     public String toString() {
-        return "LigaFutbol{" +
-                "nombre='" + nombre + '\'' +
-                ", equiposLiga=" + equiposLiga +
-                ", vuelta=" + vuelta +
-                ", jornadasFaltan=" + jornadasFaltan +
+        return "Datos de la liga{" +
+                "nombre= '" + nombre + '\'' +
+                ", vuelta= " + vuelta +
+                ", jornadas por jugar= " + jornadasFaltan +
                 '}';
+    }
+
+    public void recorrerEquiposliga() {
+        System.out.println("Equipos de la liga: ");
+        for (EquipoFutbol e : this.equiposLiga) {
+            if (e.getNombre().equals("Real Random")) {
+                System.out.print(e.getNombre() + ". ");
+            } else
+                System.out.print(e.getNombre() + ", ");
+        }
+        System.out.println();
     }
 
     @Override
@@ -85,13 +95,12 @@ public class LigaFutbol implements Liga {
     @Override
     public void simularLigaEntera(ArrayList<EquipoFutbol> listaEquipos) {
         /*EquipoFutbol equipoGanador;
-        EquipoFutbol equipoPerdedor;*/
-        /*boolean isEmpate = false;*/
+        EquipoFutbol equipoPerdedor;
+        boolean isEmpate = false;*/
         for (int equipoRef = 0; equipoRef < listaEquipos.size(); equipoRef++) {
             for (int equipoRival = 0; equipoRival < listaEquipos.size(); equipoRival++) {
                 if (listaEquipos.get(equipoRef) != listaEquipos.get(equipoRival)) {
                     simularPartido(listaEquipos.get(equipoRef), listaEquipos.get(equipoRival));
-
                 }
             }
         }
@@ -106,7 +115,7 @@ public class LigaFutbol implements Liga {
         e2.setGolesContra(e1.getGolesFavor());
         e1.setPartidosJugados(e1.getPartidosJugados() + 1);
         e2.setPartidosJugados(e2.getPartidosJugados() + 1);
-        this.partidosFaltan = this.partidosFaltan - 1;
+        this.partidosFaltan--;
         calcularJornadasFaltan();
         calcularVueltas();
 
@@ -120,13 +129,13 @@ public class LigaFutbol implements Liga {
             e2.setVictorias(e2.getVictorias() + 1);
             e1.setDerrotas(e1.getDerrotas() + 1);
             return e2;
-        } else if (e1.getGolesFavor() == e2.getGolesFavor()) {
+        } else {
             e2.setPuntuacion(e2.getPuntuacion() + 1);
             e1.setPuntuacion(e1.getPuntuacion() + 1);
             e1.setEmpates(e1.getEmpates() + 1);
             e2.setEmpates(e2.getEmpates() + 1);
             return null;
-        } else return null;
+        }
     }
 
 
@@ -150,7 +159,7 @@ public class LigaFutbol implements Liga {
 
     @Override
     public void calcularJornadasFaltan() {
-        if (this.partidosFaltan % 11 == 0){
+        if (this.partidosFaltan % 11 == 0) {
             this.jornadasFaltan = this.partidosFaltan / 11;
         }
     }

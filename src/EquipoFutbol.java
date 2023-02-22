@@ -4,7 +4,7 @@ public class EquipoFutbol extends Equipo implements Comparable<EquipoFutbol> {//
     private int golesContra;
 
 
-    public EquipoFutbol(int IdEquipo,String nombre, int partidosJugados, int victorias, int empates, int derrotas, int puntuacion, int golesFavor, int golesContra) {
+    public EquipoFutbol(int IdEquipo, String nombre, int partidosJugados, int victorias, int empates, int derrotas, int puntuacion, int golesFavor, int golesContra) {
         super(IdEquipo, nombre, partidosJugados, victorias, empates, derrotas, puntuacion);
         this.golesFavor = golesFavor;
         this.golesContra = golesContra;

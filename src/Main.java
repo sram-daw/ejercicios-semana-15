@@ -25,14 +25,15 @@ public class Main {
                     nuevaLiga = new LigaFutbol(nombreLiga);
                     System.out.println("Se ha creado la liga " + nuevaLiga.getNombre());
                     isLiga = true;
-                    System.out.println(nuevaLiga.toString());//test
+                    System.out.println(nuevaLiga);//test
+                    nuevaLiga.recorrerEquiposliga();
                 } else {
                     System.out.println("Ya existe una liga.");
                 }
             } else if (eleccionMenu == 2) {
                 //jugar liga
                 if (isLiga) {
-                    System.out.println("Elija una opción: \n1. Jugar jornada \n2. Consultar tabla \n3. Pausar liga");
+                    System.out.println("Elija una opción: \n1. Simular jornada \n2. Consultar tabla \n3. Pausar liga");
                     eleccionMenu = inputInt.nextInt();
                     if (eleccionMenu == 1) {
                         //de momento jugar toda la liga
@@ -52,8 +53,9 @@ public class Main {
                 }
 
             } else if (eleccionMenu == 3) {
-                //eliminar liga actual
-                System.out.println("eliminar liga");
+                nuevaLiga = null;
+                isLiga = false;
+                System.out.println("Liga eliminada con éxito.");
             } else if (eleccionMenu == 4) {
                 isSalir = true;
             }
