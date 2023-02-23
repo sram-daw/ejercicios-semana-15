@@ -9,7 +9,7 @@ public interface Liga {
 
     void calcularJornadasFaltan();
 
-    public HashMap  simularJornada(ArrayList<EquipoFutbol> listaEquipos, HashMap parejasEquipos);
+    public void  simularJornada(ArrayList<EquipoFutbol> listaEquipos);
     public EquipoFutbol simularPartido(EquipoFutbol e1, EquipoFutbol e2);
     void simularJornada();
 

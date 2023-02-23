@@ -94,23 +94,19 @@ public class LigaFutbol implements Liga {
     }
 
     @Override
-    public HashMap simularJornada(ArrayList<EquipoFutbol> listaEquipos, HashMap parejasJornadas) {
+    public void simularJornada(ArrayList<EquipoFutbol> listaEquipos) {
         /*EquipoFutbol equipoGanador; //esto es por si se usa qué equipo gana en cada partido para dar la información al usuario
         /*EquipoFutbol equipoPerdedor;
         boolean isEmpate = false;*/
         int contadorPartidos = 0;
         System.out.println("Resultados: ");
-        for (int equipoRef = 0; equipoRef < listaEquipos.size(); equipoRef++) {
+        for (int equipoCasa = 0; equipoCasa < listaEquipos.size(); equipoCasa++) {
             for (int equipoRival = 0; equipoRival < listaEquipos.size(); equipoRival++) {
-                if (listaEquipos.get(equipoRef) != listaEquipos.get(equipoRival) && contadorPartidos <= 11 && !(parejasJornadas.containsKey(listaEquipos.get(equipoRef)) && parejasJornadas.get(listaEquipos.get(equipoRef)).equals(listaEquipos.get(equipoRival)))) {
-                    simularPartido(listaEquipos.get(equipoRef), listaEquipos.get(equipoRival));
-                    contadorPartidos++;
-                    parejasJornadas.put(listaEquipos.get(equipoRef), listaEquipos.get(equipoRival)); //se añaden los equipos que se han enfrentado al hash map
-                    System.out.println(listaEquipos.get(equipoRef).getNombre() + " " + listaEquipos.get(equipoRef).getGolesFavor() + " - " + listaEquipos.get(equipoRival).getGolesFavor() + " " + listaEquipos.get(equipoRival).getNombre());
+                if (listaEquipos.get(equipoCasa) != listaEquipos.get(equipoRival)) {
+                    simularPartido(listaEquipos.get(equipoCasa), listaEquipos.get(equipoRival));
                 }
             }
         }
-        return parejasJornadas;
     }
 
     //devuelve el equipo ganador o null en caso de empate
@@ -119,7 +115,7 @@ public class LigaFutbol implements Liga {
         e1.setGolesFavor((int) (Math.random() * 5));
         e2.setGolesFavor((int) (Math.random() * 5));
         /*System.out.println("Goles "+e1.getNombre()+": "+e1.getGolesFavor());
-        System.out.println("Goles "+e2.getNombre()+": "+e2.getGolesFavor());*///test;
+        System.out.println("Goles "+e2.getNombre()+": "+e2.getGolesFavor());*/ //mostrar resultados
         e1.setGolesContra(e2.getGolesFavor());
         e2.setGolesContra(e1.getGolesFavor());
         e1.setPartidosJugados(e1.getPartidosJugados() + 1);
@@ -172,7 +168,6 @@ public class LigaFutbol implements Liga {
             this.jornadasFaltan = this.partidosFaltan / 11;
         }
     }
-
 
 
     @Override
