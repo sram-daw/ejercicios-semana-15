@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public interface Liga {
 
@@ -8,7 +9,7 @@ public interface Liga {
 
     void calcularJornadasFaltan();
 
-    public void simularLigaEntera(ArrayList<EquipoFutbol> listaEquipos);
+    public HashMap  simularJornada(ArrayList<EquipoFutbol> listaEquipos, HashMap parejasEquipos);
     public EquipoFutbol simularPartido(EquipoFutbol e1, EquipoFutbol e2);
     void simularJornada();
 

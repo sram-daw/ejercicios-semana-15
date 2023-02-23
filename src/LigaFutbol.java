@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 
 public class LigaFutbol implements Liga {
@@ -85,7 +86,7 @@ public class LigaFutbol implements Liga {
         ArrayList<EquipoFutbol> equipos = new ArrayList<>();
 
         for (int i = 0; i < nombres.length; i++) {
-            EquipoFutbol nuevoEquipo = new EquipoFutbol(i, nombres[i]);
+            EquipoFutbol nuevoEquipo = new EquipoFutbol(i, nombres[i]); //parámetros: id y nombre
             equipos.add(nuevoEquipo);
         }
 
@@ -93,24 +94,32 @@ public class LigaFutbol implements Liga {
     }
 
     @Override
-    public void simularLigaEntera(ArrayList<EquipoFutbol> listaEquipos) {
-        /*EquipoFutbol equipoGanador;
-        EquipoFutbol equipoPerdedor;
+    public HashMap simularJornada(ArrayList<EquipoFutbol> listaEquipos, HashMap parejasJornadas) {
+        /*EquipoFutbol equipoGanador; //esto es por si se usa qué equipo gana en cada partido para dar la información al usuario
+        /*EquipoFutbol equipoPerdedor;
         boolean isEmpate = false;*/
+        int contadorPartidos = 0;
+        System.out.println("Resultados: ");
         for (int equipoRef = 0; equipoRef < listaEquipos.size(); equipoRef++) {
             for (int equipoRival = 0; equipoRival < listaEquipos.size(); equipoRival++) {
-                if (listaEquipos.get(equipoRef) != listaEquipos.get(equipoRival)) {
+                if (listaEquipos.get(equipoRef) != listaEquipos.get(equipoRival) && contadorPartidos <= 11 && !(parejasJornadas.containsKey(listaEquipos.get(equipoRef)) && parejasJornadas.get(listaEquipos.get(equipoRef)).equals(listaEquipos.get(equipoRival)))) {
                     simularPartido(listaEquipos.get(equipoRef), listaEquipos.get(equipoRival));
+                    contadorPartidos++;
+                    parejasJornadas.put(listaEquipos.get(equipoRef), listaEquipos.get(equipoRival)); //se añaden los equipos que se han enfrentado al hash map
+                    System.out.println(listaEquipos.get(equipoRef).getNombre() + " " + listaEquipos.get(equipoRef).getGolesFavor() + " - " + listaEquipos.get(equipoRival).getGolesFavor() + " " + listaEquipos.get(equipoRival).getNombre());
                 }
             }
         }
+        return parejasJornadas;
     }
 
     //devuelve el equipo ganador o null en caso de empate
     @Override
-    public EquipoFutbol simularPartido(EquipoFutbol e1, EquipoFutbol e2) {
+    public EquipoFutbol simularPartido(EquipoFutbol e1, EquipoFutbol e2) { //en caso de no usar qué equipo gana en cada partido, se puede hacer void esta función
         e1.setGolesFavor((int) (Math.random() * 5));
         e2.setGolesFavor((int) (Math.random() * 5));
+        /*System.out.println("Goles "+e1.getNombre()+": "+e1.getGolesFavor());
+        System.out.println("Goles "+e2.getNombre()+": "+e2.getGolesFavor());*///test;
         e1.setGolesContra(e2.getGolesFavor());
         e2.setGolesContra(e1.getGolesFavor());
         e1.setPartidosJugados(e1.getPartidosJugados() + 1);
@@ -163,6 +172,7 @@ public class LigaFutbol implements Liga {
             this.jornadasFaltan = this.partidosFaltan / 11;
         }
     }
+
 
 
     @Override
