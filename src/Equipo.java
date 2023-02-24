@@ -82,4 +82,5 @@ public abstract class Equipo {
     public void setPuntuacion(int puntuacion) {
         this.puntuacion = puntuacion;
     }
+
 }

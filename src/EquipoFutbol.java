@@ -15,6 +15,7 @@ public class EquipoFutbol extends Equipo implements Comparable<EquipoFutbol> {//
         super(IdEquipo,nombre);
     }
 
+
     public int getGolesFavor() {
         return golesFavor;
     }
@@ -37,5 +38,5 @@ public class EquipoFutbol extends Equipo implements Comparable<EquipoFutbol> {//
         return o.getPuntuacion()-this.getPuntuacion(); //para ordenar descendentemente. Si quisiéramos ordenar ascendentemente invertimos la resta.
     }
 
-    //método para consultar los datos de cada equipo
+
 }

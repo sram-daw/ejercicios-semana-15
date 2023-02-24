@@ -94,7 +94,7 @@ public class LigaFutbol implements Liga {
     }
 
     @Override
-    public void simularJornada(ArrayList<EquipoFutbol> listaEquipos) {
+    public void simularJornada(ArrayList<EquipoFutbol> listaEquipos) { //de momento simula la liga entera
         /*EquipoFutbol equipoGanador; //esto es por si se usa qué equipo gana en cada partido para dar la información al usuario
         /*EquipoFutbol equipoPerdedor;
         boolean isEmpate = false;*/
@@ -111,7 +111,7 @@ public class LigaFutbol implements Liga {
 
     //devuelve el equipo ganador o null en caso de empate
     @Override
-    public EquipoFutbol simularPartido(EquipoFutbol e1, EquipoFutbol e2) { //en caso de no usar qué equipo gana en cada partido, se puede hacer void esta función
+    public EquipoFutbol simularPartido(EquipoFutbol e1, EquipoFutbol e2) { //en caso de no usar qué equipo gana en cada partido, se puede hacer void esta función. Comprobar suma puntuación porque está mal
         e1.setGolesFavor((int) (Math.random() * 5));
         e2.setGolesFavor((int) (Math.random() * 5));
         /*System.out.println("Goles "+e1.getNombre()+": "+e1.getGolesFavor());
@@ -134,24 +134,13 @@ public class LigaFutbol implements Liga {
             e2.setVictorias(e2.getVictorias() + 1);
             e1.setDerrotas(e1.getDerrotas() + 1);
             return e2;
-        } else {
+        } else if (e1.getGolesFavor() == e2.getGolesFavor()) {
             e2.setPuntuacion(e2.getPuntuacion() + 1);
             e1.setPuntuacion(e1.getPuntuacion() + 1);
             e1.setEmpates(e1.getEmpates() + 1);
             e2.setEmpates(e2.getEmpates() + 1);
             return null;
-        }
-    }
-
-
-    @Override
-    public void simularJornada() {
-
-       /* if (this.jornadasFaltan > 0) {
-
-
-        }*/
-
+        } else return null;
     }
 
 
@@ -172,13 +161,22 @@ public class LigaFutbol implements Liga {
 
     @Override
     public void consultarTabla() {
-        Collections.sort(equiposLiga);//podemos usar el método sort de collections tras haber implementado la interfaz Comparable en EquipoFutbol
-        for (EquipoFutbol e : this.equiposLiga) {
+        ArrayList<EquipoFutbol> listaEquiposOrdenada = new ArrayList<>(); //es necesario crear una lista auxiliar para ordenar los equipos de forma provisional para consultar la tabla; de lo contrario cuando se quiere consultar estadísticas por equipo en la lista que se muestra salen desordenados los id.
+        listaEquiposOrdenada.addAll(this.equiposLiga);
+        Collections.sort(listaEquiposOrdenada);//podemos usar el método sort de collections tras haber implementado la interfaz Comparable en EquipoFutbol
+        for (EquipoFutbol e : listaEquiposOrdenada) {
             /*System.out.println("ID: "+e.getIdEquipo()+" "+e.getNombre() + " " + e.getPuntuacion() + " puntos.");*/ //test id
             System.out.println(e.getNombre() + " " + e.getPuntuacion() + " puntos.");
         }
+    }
 
-
+    public void consultarEstadísticasEquipo(EquipoFutbol equipoAConsultar) {
+        System.out.println("\033[42m" + "Estadísticas del " + equipoAConsultar.getNombre() + ": " + "\u001B[0m");
+        System.out.println("Victorias: " + equipoAConsultar.getVictorias());
+        System.out.println("Derrotas: " + equipoAConsultar.getDerrotas());
+        System.out.println("Empates: " + equipoAConsultar.getEmpates());
+        System.out.println("Partidos jugados: " + equipoAConsultar.getPartidosJugados());
+        System.out.println("Puntuación: " + equipoAConsultar.getPuntuacion());
     }
 
 
