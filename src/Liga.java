@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.*;
 
 public interface Liga {
 
@@ -10,7 +8,7 @@ public interface Liga {
 
     void calcularJornadasFaltan();
 
-    public void  simularJornada(ArrayList<EquipoFutbol> listaEquipos);
+    public List<AbstractMap.SimpleEntry<EquipoFutbol, EquipoFutbol>>  simularJornada(ArrayList<EquipoFutbol> listaEquipos, List<AbstractMap.SimpleEntry<EquipoFutbol, EquipoFutbol>> parejasJornadas);
     public EquipoFutbol simularPartido(EquipoFutbol e1, EquipoFutbol e2);
 
     void consultarTabla();

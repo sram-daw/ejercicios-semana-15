@@ -35,7 +35,7 @@ public class EquipoFutbol extends Equipo implements Comparable<EquipoFutbol> {//
     //funciones
     @Override
     public int compareTo(EquipoFutbol o) {//método sobrecargado de la interfaz Comparable
-        return o.getPuntuacion()-this.getPuntuacion(); //para ordenar descendentemente. Si quisiéramos ordenar ascendentemente invertimos la resta.
+        return o.getPuntuacion()-this.getPuntuacion(); //para ordenar descendentemente según la puntuación. Si quisiéramos ordenar ascendentemente invertimos la resta.
     }
 
 

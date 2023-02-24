@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-
+import java.util.AbstractMap;
+import java.util.List;
 
 public class LigaFutbol implements Liga {
     //22 equipos
@@ -11,6 +11,9 @@ public class LigaFutbol implements Liga {
     int jornadasFaltan;
 
     int partidosFaltan;
+
+    List<AbstractMap.SimpleEntry<EquipoFutbol, EquipoFutbol>> parejasEquipos = new ArrayList<>();//lleva la cuenta total de qué parejas de equipos han jugado entre sí
+    List<AbstractMap.SimpleEntry<EquipoFutbol, EquipoFutbol>> actualizadorParejasEquipos = new ArrayList<>();//se usa en el return de la función simularJornada para devolverlas parejas de equipos que jugaron una jornada concreta.
 
     //462 partidos en total
     //231 partidos por vuelta
@@ -24,6 +27,31 @@ public class LigaFutbol implements Liga {
     }
 
     //getters y setters
+
+    public int getPartidosFaltan() {
+        return partidosFaltan;
+    }
+
+    public void setPartidosFaltan(int partidosFaltan) {
+        this.partidosFaltan = partidosFaltan;
+    }
+
+    public List<AbstractMap.SimpleEntry<EquipoFutbol, EquipoFutbol>> getParejasEquipos() {
+        return parejasEquipos;
+    }
+
+    public void setParejasEquipos(List<AbstractMap.SimpleEntry<EquipoFutbol, EquipoFutbol>> parejasEquipos) {
+        this.parejasEquipos = parejasEquipos;
+    }
+
+    public List<AbstractMap.SimpleEntry<EquipoFutbol, EquipoFutbol>> getActualizadorParejasEquipos() {
+        return actualizadorParejasEquipos;
+    }
+
+    public void setActualizadorParejasEquipos(List<AbstractMap.SimpleEntry<EquipoFutbol, EquipoFutbol>> actualizadorParejasEquipos) {
+        this.actualizadorParejasEquipos = actualizadorParejasEquipos;
+    }
+
     public String getNombre() {
         return nombre;
     }
@@ -63,6 +91,7 @@ public class LigaFutbol implements Liga {
                 "nombre= '" + nombre + '\'' +
                 ", vuelta= " + vuelta +
                 ", jornadas por jugar= " + jornadasFaltan +
+                ", partidos por jugar= " + partidosFaltan +
                 '}';
     }
 
@@ -93,25 +122,39 @@ public class LigaFutbol implements Liga {
         return equipos;
     }
 
-    @Override
-    public void simularJornada(ArrayList<EquipoFutbol> listaEquipos) { //de momento simula la liga entera
-        /*EquipoFutbol equipoGanador; //esto es por si se usa qué equipo gana en cada partido para dar la información al usuario
-        /*EquipoFutbol equipoPerdedor;
-        boolean isEmpate = false;*/
-        int contadorPartidos = 0;
+    public List<AbstractMap.SimpleEntry<EquipoFutbol, EquipoFutbol>> simularJornada(ArrayList<EquipoFutbol> listaEquipos, List<AbstractMap.SimpleEntry<EquipoFutbol, EquipoFutbol>> parejasJornadas) {
+        int contadorPartidos = 1;
         System.out.println("Resultados: ");
-        for (int equipoCasa = 0; equipoCasa < listaEquipos.size(); equipoCasa++) {
-            for (int equipoRival = 0; equipoRival < listaEquipos.size(); equipoRival++) {
-                if (listaEquipos.get(equipoCasa) != listaEquipos.get(equipoRival)) {
-                    simularPartido(listaEquipos.get(equipoCasa), listaEquipos.get(equipoRival));
-                }
+        while (contadorPartidos < 12 && (this.jornadasFaltan > 21 || this.vuelta == 2)) { //la condición de las jornadas determina por qué vuelta va la ejecución
+            boolean isMismoEquipo = false;
+            int equipoRef = (int) (Math.random() * listaEquipos.size()); //se generan números aleatorios dentro del tamaño del arraylist de equipos para que los enfrentamientos sean aleatorios también
+            int equipoRival = (int) (Math.random() * listaEquipos.size());
+            if (equipoRef == equipoRival) {
+                isMismoEquipo = true; // para evitar que el equipo se enfrente a sí mismo
+            }
+            if (!isMismoEquipo && !(parejasJornadas.contains(new AbstractMap.SimpleEntry<>(listaEquipos.get(equipoRef), listaEquipos.get(equipoRival)))
+                    || parejasJornadas.contains(new AbstractMap.SimpleEntry<>(listaEquipos.get(equipoRival), listaEquipos.get(equipoRef))))) {
+                simularPartido(listaEquipos.get(equipoRef), listaEquipos.get(equipoRival));
+                contadorPartidos++;
+                parejasJornadas.add(new AbstractMap.SimpleEntry<>(listaEquipos.get(equipoRef), listaEquipos.get(equipoRival)));
+                System.out.println(listaEquipos.get(equipoRef).getNombre() + " " + listaEquipos.get(equipoRef).getGolesFavor() + " - " + listaEquipos.get(equipoRival).getGolesFavor() + " " + listaEquipos.get(equipoRival).getNombre());
             }
         }
+        if (this.jornadasFaltan == 21) {
+            this.parejasEquipos.clear();//se limpia la lista de parejas de equipo para dar comienzo a la segunda vuelta
+            System.out.println("\033[43m" + "La primera vuelta ha finalizado. Para continuar con la segunda, simula una jornada. Esta es la clasificación hasta el momento: " + "\u001B[0m");
+            consultarTabla();
+        } else if (this.jornadasFaltan == 0) {
+            System.out.println("\033[42m" + "La liga ha finalizado. Esta es la clasificación definitiva: " + "\u001B[0m");
+            consultarTabla();
+        }
+        return parejasJornadas;
     }
+
 
     //devuelve el equipo ganador o null en caso de empate
     @Override
-    public EquipoFutbol simularPartido(EquipoFutbol e1, EquipoFutbol e2) { //en caso de no usar qué equipo gana en cada partido, se puede hacer void esta función. Comprobar suma puntuación porque está mal
+    public EquipoFutbol simularPartido(EquipoFutbol e1, EquipoFutbol e2) { //en caso de no usar qué equipo gana en cada partido, se puede hacer void esta función.
         e1.setGolesFavor((int) (Math.random() * 5));
         e2.setGolesFavor((int) (Math.random() * 5));
         /*System.out.println("Goles "+e1.getNombre()+": "+e1.getGolesFavor());
@@ -134,15 +177,14 @@ public class LigaFutbol implements Liga {
             e2.setVictorias(e2.getVictorias() + 1);
             e1.setDerrotas(e1.getDerrotas() + 1);
             return e2;
-        } else if (e1.getGolesFavor() == e2.getGolesFavor()) {
+        } else {
             e2.setPuntuacion(e2.getPuntuacion() + 1);
             e1.setPuntuacion(e1.getPuntuacion() + 1);
             e1.setEmpates(e1.getEmpates() + 1);
             e2.setEmpates(e2.getEmpates() + 1);
             return null;
-        } else return null;
+        }
     }
-
 
     @Override
     public void calcularVueltas() {
@@ -170,7 +212,7 @@ public class LigaFutbol implements Liga {
         }
     }
 
-    public void consultarEstadísticasEquipo(EquipoFutbol equipoAConsultar) {
+    public void consultarEstadisticasEquipo(EquipoFutbol equipoAConsultar) {
         System.out.println("\033[42m" + "Estadísticas del " + equipoAConsultar.getNombre() + ": " + "\u001B[0m");
         System.out.println("Victorias: " + equipoAConsultar.getVictorias());
         System.out.println("Derrotas: " + equipoAConsultar.getDerrotas());
