@@ -142,7 +142,7 @@ public class LigaFutbol implements Liga {
         }
         if (this.jornadasFaltan == 21) {
             this.parejasEquipos.clear();//se limpia la lista de parejas de equipo para dar comienzo a la segunda vuelta
-            System.out.println("\033[43m" + "La primera vuelta ha finalizado. Para continuar con la segunda, simula una jornada. Esta es la clasificación hasta el momento: " + "\u001B[0m");
+            System.out.println( "\033[42m" + "La primera vuelta ha finalizado. Para continuar con la segunda, simula una jornada. Esta es la clasificación hasta el momento: " + "\u001B[0m");
             consultarTabla();
         } else if (this.jornadasFaltan == 0) {
             System.out.println("\033[42m" + "La liga ha finalizado. Esta es la clasificación definitiva: " + "\u001B[0m");
