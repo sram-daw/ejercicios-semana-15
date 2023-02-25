@@ -16,7 +16,7 @@ public class Main {
         int idEquipo = 0;
 
         while (!isSalir) {
-            System.out.println("Bienvenid@ a La Liga. ¿Qué desea hacer? \n1. Crear una nueva liga \n2. Jugar liga \n3. Eliminar liga actual. \n4. Salir");
+            System.out.println("Bienvenid@ a La Liga. ¿Qué desea hacer? \n1. Crear una nueva liga \n2. Menú de la liga \n3. Eliminar liga actual. \n4. Salir");
             eleccionMenu = inputInt.nextInt();
             switch (eleccionMenu) { //switch menú principal
                 case 1:
@@ -58,7 +58,7 @@ public class Main {
                                 case 3:
                                     System.out.println("\033[43m"+"Escriba el ID del equipo que quiere consultar: "+ "\u001B[0m");
                                     for (EquipoFutbol e : nuevaLiga.equiposLiga) {
-                                        System.out.println(e.getIdEquipo() + ". " + e.getNombre());
+                                        System.out.println(e.getIdEquipo() + ". " + e.getNombre()); //muestra los equipos con su ID
                                     }
                                     idEquipo = inputInt.nextInt();
                                     nuevaLiga.consultarEstadisticasEquipo(nuevaLiga.equiposLiga.get(idEquipo));
@@ -81,8 +81,8 @@ public class Main {
 
                 case 3:
                     if (isLiga) {
-                        nuevaLiga = null;
-                        isLiga = false;
+                        nuevaLiga = null; //se elimina la liga
+                        isLiga = false; //el booleano que concede o no acceso a ciertas opciones del menú en función de si hay una liga creada
                         System.out.println("\033[42m" + "Liga eliminada con éxito." + "\u001B[0m");
                     } else {
                         System.out.println("\033[41m" + "No hay ninguna liga creada." + "\u001B[0m");
