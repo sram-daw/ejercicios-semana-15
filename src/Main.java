@@ -7,16 +7,16 @@ public class Main {
     public static void main(String[] args) {
         Scanner inputInt = new Scanner(System.in);
         Scanner inputString = new Scanner(System.in);
-        boolean isSalir = false;
-        boolean isSalirLiga = false;
+        boolean isSalir = false; //determina cuándo se para la ejecución del programa
+        boolean isSalirLiga = false; //determina si se sale del menú de la liga o no
         int eleccionMenu = 0;
         String nombreLiga = "";
         boolean isLiga = false; //true si existe una liga creada y false si no
-        LigaFutbol nuevaLiga = null;
+        LigaFutbol nuevaLiga = null; //al principio de la ejecución del programa se instancia una nueva liga a null para poder determinar si existe una liga creada o no a la hora de dar acceso a ciertas funcionalidades
         int idEquipo = 0;
 
         while (!isSalir) {
-            System.out.println("Bienvenid@ a La Liga. ¿Qué desea hacer? \n1. Crear una nueva liga \n2. Menú de la liga \n3. Eliminar liga actual. \n4. Salir");
+            System.out.println("Bienvenid@ a La Liga. ¿Qué desea hacer? \n1. Crear una nueva liga \n2. Menú de la liga \n3. Eliminar liga actual \n4. Salir");
             eleccionMenu = inputInt.nextInt();
             switch (eleccionMenu) { //switch menú principal
                 case 1:
@@ -26,7 +26,7 @@ public class Main {
                         nuevaLiga = new LigaFutbol(nombreLiga);
                         System.out.println("Se ha creado la liga " + nuevaLiga.getNombre());
                         isLiga = true;
-                        System.out.println(nuevaLiga);//test
+                        System.out.println(nuevaLiga);
                         nuevaLiga.recorrerEquiposliga();
                     } else {
                         System.out.println("\033[33m" + "Ya existe una liga." + "\u001B[0m");
