@@ -3,7 +3,8 @@ import java.util.Collections;
 import java.util.AbstractMap;
 import java.util.List;
 
-public class LigaFutbol implements Liga {
+public class LigaFutbol implements Liga<EquipoFutbol> { /*Lo que va entre <> especifica qué tipo de objeto en concreto se va a usar,
+                                                            lo cual permite sobrecargar los métodos simularJornada y simularPartido de la interfaz Liga (ver comentario en Liga)*/
     //22 equipos
     String nombre;
     ArrayList<EquipoFutbol> equiposLiga = new ArrayList<>();
@@ -123,6 +124,7 @@ public class LigaFutbol implements Liga {
         return equipos;
     }
 
+    @Override
     public List<AbstractMap.SimpleEntry<EquipoFutbol, EquipoFutbol>> simularJornada(ArrayList<EquipoFutbol> listaEquipos, List<AbstractMap.SimpleEntry<EquipoFutbol, EquipoFutbol>> parejasJornadas) {
         int contadorPartidos = 1;
         System.out.println("Resultados: ");
@@ -143,7 +145,7 @@ public class LigaFutbol implements Liga {
         }
         if (this.jornadasFaltan == 21) {
             this.parejasEquipos.clear();//se limpia la lista de parejas de equipo para dar comienzo a la segunda vuelta
-            System.out.println( "\033[42m" + "La primera vuelta ha finalizado. Para continuar con la segunda, simula una jornada. Esta es la clasificación hasta el momento: " + "\u001B[0m");
+            System.out.println("\033[42m" + "La primera vuelta ha finalizado. Para continuar con la segunda, simula una jornada. Esta es la clasificación hasta el momento: " + "\u001B[0m");
             consultarTabla();
         } else if (this.jornadasFaltan == 0) { //si no falta ninguna jornada por disputarse sale el siguiente mensaje
             System.out.println("\033[42m" + "La liga ha finalizado. Esta es la clasificación definitiva: " + "\u001B[0m");
@@ -152,7 +154,7 @@ public class LigaFutbol implements Liga {
         return parejasJornadas;
     }
 
-
+    @Override
     public void simularPartido(EquipoFutbol e1, EquipoFutbol e2) { //se van estableciendo los atributos de cada equipo en función de si ganan o pierden
         e1.setGolesFavor((int) (Math.random() * 5)); //generación aleatoria de los goles
         e2.setGolesFavor((int) (Math.random() * 5));
@@ -195,7 +197,6 @@ public class LigaFutbol implements Liga {
             this.jornadasFaltan = this.partidosFaltan / 11;
         }
     }
-
 
     @Override
     public void consultarTabla() {
